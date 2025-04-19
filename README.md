@@ -71,3 +71,7 @@ print(mul12('308', '2'))    # 308 * 2 = 516
 
 ## License
 MIT
+
+lukinack@gmail.com
+
+Lukin
