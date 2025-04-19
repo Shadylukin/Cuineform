@@ -1,112 +1,73 @@
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="lukinackc" data-color="#FFDD00" data-emoji="☕"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+<a href="https://www.buymeacoffee.com/lukinackc" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px; width: 217px;" >
+</a>
 
-# base12math
+# Cuineform: A Duodecimal Pattern Logic Framework
 
-**Duodecimal math via cuneiform operators**
+**Cuineform** is a base‑12 (duodecimal) place‑value system and pattern engine, featuring three symbolic operators—§ (emergence/reset), E (even‑halve), and T (trip+1)—that together form a compact automaton for recursive computation, energy‑aware logic, and emergent behavior.
 
-A pure Python library for base-12 (“duodecimal”) arithmetic using digits `0–9, T, E`.
+- **Digits:** 0–9, T (10), E (11)
+- **Operators:**
+  - **T:** Trip+1 (n → 3n+1 if odd)
+  - **E:** Even-halve (n → n/2 if even)
+  - **§:** Emergence/Reset/Spawn (fires when n ≡ 0 mod 12; triggers recursion, branching, or structural transitions)
 
-## Key Features
+---
 
-*   **Zero-dependency duodecimal arithmetic:** Perform calculations directly in base-12 without intermediate decimal conversion.
-*   **Human-friendly digits:** Uses standard `0–9` plus `T` (10) and `E` (11).
-*   **Native carry-aware algorithms:** Addition and multiplication handle arbitrary-length strings correctly.
-*   **Composability:** Build higher-order functions (factorials, etc.) entirely in base-12.
-*   **Compactness & divisibility:** Base-12’s factors (2, 3, 4, 6) can simplify representation.
+## Why Cuineform?
+- **Pattern-rich:** Base-12 exposes symmetries, cycles, and divisibility hidden in decimal.
+- **Symbolic logic:** Operators T, E, and § enable recursive, automaton-like computation and pattern recognition.
+- **Physical & digital:** Designed for both software and hardware (see white paper for piezo/energy-harvesting automata).
+- **Educational:** A hands-on tool for exploring alternative arithmetic, recursion, and symbolic computation.
 
-## Installation
+---
 
-```sh
-# Clone the repository (if you haven't already)
-# git clone <your-repo-url>
-# cd base12math
-
-# Install the package
-pip install .
-```
-
-## Usage Examples
-
-See the `examples/` directory for runnable scripts (`convert_demo.py`, `arithmetic_demo.py`, `compose_demo.py`, `factorial_demo.py`).
-
-### 1. Basic Conversion
+## Quickstart
 
 ```python
-from base12math import to_base12, from_base12
+from base12math import to_base12, from_base12, add12, mul12
 
-# Decimal → Duodecimal
-print(to_base12(0))      # "0"
-print(to_base12(10))     # "T"   (10₁₀ → T₁₂)
-print(to_base12(11))     # "E"   (11₁₀ → E₁₂)
-print(to_base12(12))     # "10"  (12₁₀ → 10₁₂)
-print(to_base12(143))    # "EE"  (11*12 + 11)
+# Convert decimal to base-12 (Cuineform)
+print(to_base12(440))   # 308
+print(to_base12(280))   # 1E4
 
-# Duodecimal → Decimal
-print(from_base12("0"))  # 0
-print(from_base12("T"))  # 10
-print(from_base12("E"))  # 11
-print(from_base12("10")) # 12
-print(from_base12("EE")) # 143
+# Operators in action (pattern logic)
+def cuineform_step(n):
+    if n % 12 == 0:
+        return '§', n // 12
+    elif n % 2 == 0:
+        return 'E', n // 2
+    else:
+        return 'T', 3 * n + 1
+
+n = 48
+pattern = []
+while n != 1:
+    op, n = cuineform_step(n)
+    pattern.append(op)
+print(' '.join(pattern))  # Example: § E E
+
+# Add and multiply in base-12
+print(add12('308', '1E4'))  # 308 + 1E4 = 4EC
+print(mul12('308', '2'))    # 308 * 2 = 516
 ```
 
-### 2. Addition & Carrying
+---
 
-```python
-from base12math import add12
+## Examples
+- **Fraction Mandalas:** See `examples/fraction_mandala.py` for repeating cycles of 1/5, 1/7, etc. in base-12.
+- **Ancient Structures:** See `examples/ancient_structures.py` for how the Great Pyramid, Stonehenge, and the Parthenon look in Cuineform numbers.
+- **Pattern Operators:** See `examples/collatz_demo.py` for symbolic pattern traces using T, E, and §.
+- **Compression:** See `examples/compression_demo.py` for how base-12 compresses large numbers more efficiently than decimal.
+- **Interactive:** Try `examples/interactive_explorer.py` to experiment with your own numbers and see their Cuineform patterns.
 
-# Simple sums (5 + 7 = 12₁₀ -> 10₁₂)
-print(add12("5", "7"))     # "10"
+---
 
-# (125 + 59 = 184₁₀ -> 1*144 + 3*12 + 4 = 134₁₂)
-print(add12("T5", "4E"))   # "134"
+## Learn More
+- **White Paper:** See `PRIMER.md` for the full theory, operator semantics, and hardware/software blueprint.
+- **Open Source:** Contributions, issues, and ideas welcome!
 
-# Carry across multiple digits (1715 + 28 = 1743₁₀ -> 1*1728 + 0*144 + 1*12 + 3 = 1013₁₂)
-print(add12("E8E", "24"))  # "1013"
-```
+---
 
-### 3. Multiplication & Place Value
-
-```python
-from base12math import mul12
-
-# (3 * 4 = 12₁₀ -> 10₁₂)
-print(mul12("3", "4"))   # "10"
-
-# (10 * 10 = 100₁₀ -> 8*12 + 4 = 84₁₂)
-print(mul12("T", "T"))   # "84"
-
-# (13 * 13 = 169₁₀ -> 1*144 + 2*12 + 1 = 121₁₂)
-print(mul12("11", "11")) # "121"
-```
-
-### 4. Composing Operations
-
-Chain operations without intermediate decimal conversion.
-
-```python
-from base12math import add12, mul12
-
-# Compute (A + B) * C all in base‑12
-A, B, C = "T3", "4E", "2"      # A=123, B=59, C=2 (decimal)
-sum_ab = add12(A, B)           # 123 + 59 = 182₁₀ -> "132"₁₂
-product = mul12(sum_ab, C)     # 182 * 2 = 364₁₀ -> "264"₁₂
-print(f"({A} + {B}) * {C} = {product}") # Output: (T3 + 4E) * 2 = 264
-```
-
-### 5. Generating a Sequence (Factorials)
-
-```python
-from base12math import mul12, to_base12
-
-def factorial12(n: int) -> str:
-    if n < 0: raise ValueError("Negative input")
-    if n == 0: return "1"
-    result = "1"
-    for i in range(2, n + 1):
-        result = mul12(result, to_base12(i))
-    return result
-
-# 5! = 120₁₀ -> 10*12 + 0 = A0₁₂
-print(factorial12(5))   # "A0"
-# 6! = 720₁₀ -> 5*144 + 0*12 + 0 = 500₁₂
-print(factorial12(6))   # "500"
+## License
+MIT

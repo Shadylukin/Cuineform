@@ -23,13 +23,15 @@ Over weeks of exploration we:
 
 ---
 ## 3. Pattern Operators
-| Glyph | Meaning (core)                      | In Collatz demo |
-|-------|-------------------------------------|-----------------|
-| **§** | *Reset* – value ≡ 0 (mod 12)         | hit a multiple of 12 |
-| **E** | *Even‑halve* (n → n∕2)               | “E” step        |
-| **T** | *Trip+One* (n → 3n + 1)              | “T” step        |
+| Glyph | Meaning (core)                      | Symbolic Role                |
+|-------|-------------------------------------|------------------------------|
+| **T** | *Trip+One* (n → 3n + 1 if odd)      | Arithmetic/Pattern Operator  |
+| **E** | *Even‑halve* (n → n∕2 if even)      | Arithmetic/Pattern Operator  |
+| **§** | *Emergence* – branch, reset, or spawn| Structural/Recursive Operator|
 
-These operators layer on top of the digits; e.g. `§EET…` is a Collatz fingerprint.
+**Note:**
+- **§** is not just a “reset” (n ≡ 0 mod 12), but the twelfth and final operator in the Cuineform system. It triggers recursion, replication, or structural transitions—serving as a meta-operator for emergence and branching in automata, protein folding, and symbolic computation.
+- These operators layer on top of the digits; e.g. `§EET…` is a pattern fingerprint, not just a number.
 
 ---
 ## 4. Instant Conversion Cheats
